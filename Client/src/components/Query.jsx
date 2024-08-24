@@ -5,6 +5,7 @@ import { IoSearch } from "react-icons/io5";
 
 const Query = () => {
   const [loading, setLoading] = useState(false);
+<<<<<<< HEAD
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -14,10 +15,22 @@ const Query = () => {
     setError(null);
     try {
       const response = await fetch("http://localhost:5000/api/query", {
+=======
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const handleButtonClick = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      // Replace with your actual API endpoint and request details
+      const response = await fetch("https://example.com/api/endpoint", {
+>>>>>>> 944bcfcdf8982e5ee5764bb2a0dac14ae75eb17d
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+<<<<<<< HEAD
         body: JSON.stringify({ userInput: inputValue }), // Send user input to the API
       });
   
@@ -30,6 +43,19 @@ const Query = () => {
       // Navigate to the Result page with the data
       navigate("/result", { state: { story: data.story, audioPath: data.audio_path,  } }); //image: data.image
   
+=======
+        body: JSON.stringify({ key: "value" }), // Replace with your request payload
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      // Perform any other necessary actions here (e.g., handling response data)
+
+      // Redirect to another page
+      navigate("/next-page"); // Replace with your desired route
+>>>>>>> 944bcfcdf8982e5ee5764bb2a0dac14ae75eb17d
     } catch (error) {
       setError(error.message);
     } finally {
@@ -42,7 +68,11 @@ const Query = () => {
       <nav className="flex justify-between items-center px-12 py-4 bg-white border-b border-gray-200 fixed top-0 left-0 w-full z-10">
         <div className="flex items-center">
           <img
+<<<<<<< HEAD
             src="https://media.discordapp.net/attachments/1274738048742981716/1276541921128353833/AStory.png?ex=66c9e7ce&is=66c8964e&hm=998b6539d715116150007463fe22021c126b38294e06ca76a333312b8c3cbfc5&=&format=webp&quality=lossless&width=471&height=471"
+=======
+            src="https://media.discordapp.net/attachments/1274738048742981716/1276541921128353833/AStory.png?ex=66c9e7ce&is=66c8964e&hm=998b6539d715116150007463fe22021c126b38294e06ca76a333312b8c3cbfc5&=&format=webp&quality=lossless&width=597&height=597"
+>>>>>>> 944bcfcdf8982e5ee5764bb2a0dac14ae75eb17d
             alt="Logo"
             className="h-8 w-8 mr-2"
           />
@@ -59,6 +89,10 @@ const Query = () => {
         <div className="flex items-center space-x-4">
           <Link to={"/"}>
             <button
+<<<<<<< HEAD
+=======
+              onClick={handleButtonClick}
+>>>>>>> 944bcfcdf8982e5ee5764bb2a0dac14ae75eb17d
               className="bg-gray-800 text-white px-8 py-3 rounded-full flex items-center space-x-2"
               disabled={loading}
             >
@@ -122,6 +156,7 @@ const Query = () => {
                   type="text"
                   placeholder="Enter a prompt here"
                   className="bg-transparent flex-grow text-white placeholder-gray-400 outline-none"
+<<<<<<< HEAD
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                 />
@@ -129,12 +164,31 @@ const Query = () => {
                   onClick={handleSubmit}
                   className="text-white bg-gray-700 p-2 rounded-full ml-2 hover:bg-gray-600"
                 >
+=======
+                />
+                <button className="text-white bg-gray-700 p-2 rounded-full ml-2 hover:bg-gray-600">
+>>>>>>> 944bcfcdf8982e5ee5764bb2a0dac14ae75eb17d
                   <IoSearch />
                 </button>
                 <button className="text-white bg-gray-700 p-2 rounded-full ml-2 hover:bg-gray-600">
                   <i className="fas fa-trash"></i>
                 </button>
               </div>
+<<<<<<< HEAD
+=======
+
+              {/* <div className="flex justify-between items-center mt-4 text-gray-400">
+                <p className="text-xs">
+                  Gemini may display inaccurate info, including about people, so
+                  double-check its responses.
+                </p>
+                <div className="flex space-x-3">
+                  <button className="text-white bg-gray-700 p-2 rounded-full hover:bg-gray-600">
+                    <i className="fas fa-sun"></i>
+                  </button>
+                </div>
+              </div> */}
+>>>>>>> 944bcfcdf8982e5ee5764bb2a0dac14ae75eb17d
             </div>
           </div>
         </div>
