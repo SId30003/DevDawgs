@@ -1,58 +1,73 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { IoMdLogOut } from "react-icons/io";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+
+const TypingEffect = ({ text, speed = 70 }) => {
+  const [displayText, setDisplayText] = useState("");
+  useEffect(() => {
+    let index = 0;
+    const timer = setInterval(() => {
+      setDisplayText((prev) => prev + text[index]);
+      index += 1;
+      if (index >= text.length) {
+        clearInterval(timer);
+      }
+    }, speed);
+    return () => clearInterval(timer);
+  }, [text, speed]);
+
+  return <div className="text-gray-700 leading-relaxed">{displayText}</div>;
+};
 
 const Result = () => {
-  const location = useLocation();
-  const { imageUrl, text } = location.state || {}; // Get data from navigation state
+  const { state } = useLocation();
+  const [imageUrl, setImageUrl] = useState(null);
+  const [infoText, setInfoText] = useState("");
+  const [audioPath, setAudioPath] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (state?.story) {
+        setInfoText(state.story);
+        setAudioPath(state.audioPath);
+        setImageUrl(state.image);
+      }
+    };
+
+    fetchData();
+  }, [state]);
 
   return (
-    <div>
-      <nav className="flex justify-between items-center px-12 py-4 bg-white border-b border-gray-200 fixed top-0 left-0 w-full z-10">
-        <div className="flex items-center">
+    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
+      {/* Container for displaying the image */}
+      {imageUrl && (
+        <div className="w-full max-w-4xl mb-6">
           <img
-            src="https://media.discordapp.net/attachments/1274738048742981716/1276541921128353833/AStory.png?ex=66c9e7ce&is=66c8964e&hm=998b6539d715116150007463fe22021c126b38294e06ca76a333312b8c3cbfc5&=&format=webp&quality=lossless&width=597&height=597"
-            alt="Logo"
-            className="h-8 w-8 mr-2"
+            src={imageUrl}
+            alt="Result"
+            className="w-full h-auto rounded-lg shadow-lg"
           />
-          <h1 className="text-xl font-bold text-gray-800">AIStoryScape</h1>
         </div>
-        <div className="flex space-x-8">
-          <Link to="/" className="text-gray-800 hover:text-gray-600">
-            Home
-          </Link>
-          <Link to="/" className="text-gray-800 hover:text-gray-600">
-            Contact Us
-          </Link>
-        </div>
-        <div className="flex items-center space-x-4">
-          <Link to={"/"}>
-            <button className="bg-gray-800 text-white px-8 py-3 rounded-full flex items-center space-x-2">
-              <IoMdLogOut className="text-xl" />
-              <span>Logout</span>
-            </button>
-          </Link>
-        </div>
-      </nav>
+      )}
 
-      <div className="pt-20 px-12 py-8 bg-gray-200 min-h-screen">
-        {!imageUrl || !text ? (
-          <div className="text-center text-gray-600">No data available</div>
-        ) : (
-          <div className="flex justify-center items-center">
-            <div className="flex items-center bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl">
-              <img
-                src={imageUrl}
-                alt="Result"
-                className="w-4/12 h-auto aspect-w-4 aspect-h-3 rounded-lg"
-              />
-              <div className="ml-8 flex-grow">
-                <p className="text-lg font-medium text-gray-800">{text}</p>
-              </div>
-            </div>
-          </div>
-        )}
+      {/* Container for displaying the story text with typing effect */}
+      <div className="w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-semibold text-gray-800 mb-4">Story</h1>
+        <div className="text-gray-700 leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: infoText }}>
+        </div>
+        <TypingEffect text={infoText} speed={30} />
       </div>
+
+      {/* Audio Player for the generated audio */}
+      {audioPath && (
+        <div className="w-full max-w-4xl mt-6">
+          <audio controls className="w-full bg-gray-200 rounded-lg shadow-md">
+            <source src={audioPath} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+      )}
     </div>
   );
 };
