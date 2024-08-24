@@ -23,7 +23,7 @@ const Login = () => {
       setEmail("");
       setPassword("");
 
-      navigate("/result");
+      navigate("/query");
     } catch (error) {
       if (error.response && error.response.status === 400) {
         alert("Email or Password is incorrect");
@@ -38,7 +38,12 @@ const Login = () => {
     <div className="flex h-screen w-screen overflow-hidden">
       {/* Form Container */}
       <div className="flex-1 flex justify-center items-center">
-        <div className="p-8 w-96 bg-white bg-opacity-90 rounded-xl shadow-lg">
+        <div
+          className="p-8 w-96 bg-white bg-opacity-90 rounded-xl shadow-xl "
+          style={{
+            boxShadow: "0 4px 6px -1px rgba(112,226,255,1.00)", // Blue shadow
+          }}
+        >
           <h1 className="text-center text-3xl font-bold">Welcome Back!</h1>
           <p className="text-center text-xl font-medium mt-3">
             Hope you are feeling better today.
