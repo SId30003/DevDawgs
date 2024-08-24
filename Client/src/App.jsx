@@ -19,10 +19,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/query" element={<Query />} />
-<<<<<<< HEAD
             <Route path="/result" element={<Result />} />
-=======
->>>>>>> 944bcfcdf8982e5ee5764bb2a0dac14ae75eb17d
           </Routes>
         </BrowserRouter>
       </main>
