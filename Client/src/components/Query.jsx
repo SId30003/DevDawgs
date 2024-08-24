@@ -6,6 +6,7 @@ import { IoSearch } from "react-icons/io5";
 const Query = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [inputValue, setInputValue] = useState("");
   const navigate = useNavigate();
 
   const handleButtonClick = async () => {
@@ -18,17 +19,19 @@ const Query = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ key: "value" }), // Replace with your request payload
+        body: JSON.stringify({ key: inputValue }), // Replace with your request payload
       });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
-      // Perform any other necessary actions here (e.g., handling response data)
+      const data = await response.json();
 
-      // Redirect to another page
-      navigate("/next-page"); // Replace with your desired route
+      // Redirect to the result page with state
+      navigate("/result", {
+        state: { imageUrl: data.imageUrl, text: data.text },
+      });
     } catch (error) {
       setError(error.message);
     } finally {
@@ -58,7 +61,6 @@ const Query = () => {
         <div className="flex items-center space-x-4">
           <Link to={"/"}>
             <button
-              onClick={handleButtonClick}
               className="bg-gray-800 text-white px-8 py-3 rounded-full flex items-center space-x-2"
               disabled={loading}
             >
@@ -121,27 +123,20 @@ const Query = () => {
                 <input
                   type="text"
                   placeholder="Enter a prompt here"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
                   className="bg-transparent flex-grow text-white placeholder-gray-400 outline-none"
                 />
-                <button className="text-white bg-gray-700 p-2 rounded-full ml-2 hover:bg-gray-600">
+                <button
+                  className="text-white bg-gray-700 p-2 rounded-full ml-2 hover:bg-gray-600"
+                  onClick={handleButtonClick}
+                >
                   <IoSearch />
                 </button>
                 <button className="text-white bg-gray-700 p-2 rounded-full ml-2 hover:bg-gray-600">
                   <i className="fas fa-trash"></i>
                 </button>
               </div>
-
-              {/* <div className="flex justify-between items-center mt-4 text-gray-400">
-                <p className="text-xs">
-                  Gemini may display inaccurate info, including about people, so
-                  double-check its responses.
-                </p>
-                <div className="flex space-x-3">
-                  <button className="text-white bg-gray-700 p-2 rounded-full hover:bg-gray-600">
-                    <i className="fas fa-sun"></i>
-                  </button>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
