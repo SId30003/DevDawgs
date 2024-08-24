@@ -6,6 +6,8 @@ import Login from "./components/Login";
 import Nav from "./components/Nav";
 import Result from "./components/Result";
 import Ho from "./components/Ho";
+// import Res from "./components/Res";
+import Query from "./components/Query";
 
 const App = () => {
   return (
@@ -16,6 +18,7 @@ const App = () => {
             <Route path="/" element={<Ho />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/query" element={<Query />} />
             <Route path="/result" element={<Result />} />
           </Routes>
         </BrowserRouter>
